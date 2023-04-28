@@ -5,6 +5,7 @@ import Login from "./Components/Authentication/Login";
 import { Route,Switch } from "react-router-dom/cjs/react-router-dom.min";
 import Home from "./Pages/HomePage/Home";
 import UserDetails from "./Components/Authentication/UserDetails/UserDetails";
+import PasswordReset from "./Components/Authentication/passwordReset";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route path="/userdetails">
           <UserDetails />
+        </Route>
+        <Route path="/resetPassword">
+          <PasswordReset />
         </Route>
       </Switch>
     </>

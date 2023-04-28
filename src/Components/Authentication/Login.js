@@ -5,8 +5,9 @@ import { Link,useHistory } from 'react-router-dom';
 const Login = () => {
     const history = useHistory();
   const emailRef = useRef();
-    const passwordRef = useRef();
-
+  const passwordRef = useRef();
+  
+ 
     const loginOnFireBase = async (enteredEmail, enteredPassword) => {
       try {
         const response = await fetch(
@@ -99,11 +100,15 @@ const Login = () => {
                         </Button>
                       </div>
                     </Form>
+
+                    <Container className="mt-2 d-flex-center">
+                     <Link to="/resetPassword">reset Password</Link>
+                    </Container>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Not Have an account?
                         <Link to="/" className="text-primary fw-bold">
-                         SignUp
+                          SignUp
                         </Link>
                       </p>
                     </div>
