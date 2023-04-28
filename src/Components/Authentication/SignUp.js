@@ -1,5 +1,6 @@
 import React,{useRef} from "react";
-import { Container, Row, Col,Card,Form,Button, Alert } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button, } from "react-bootstrap";
+import {Link} from 'react-router-dom'
 
 //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 const SignUp = () => {
@@ -74,7 +75,6 @@ const SignUp = () => {
 
                       <Form.Group
                         className="mb-3"
-                        controlId="formBasicPassword"
                       >
                         <Form.Label>Password</Form.Label>
                         <Form.Control
@@ -114,10 +114,10 @@ const SignUp = () => {
                     </Form>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
-                         Have an account?{" "}
-                        <a href="{''}" className="text-primary fw-bold">
+                         Already Have an account?{" "}
+                        <Link to="/login" className="text-primary fw-bold">
                           Login
-                        </a>
+                        </Link>
                       </p>
                     </div>
                   </div>
