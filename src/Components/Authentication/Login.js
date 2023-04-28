@@ -26,8 +26,9 @@ const Login = () => {
         if (response.ok) {
           console.log("LogIn OK");
           console.log(" User has successfully Logged In");
-          const data = await response;
-            console.log(data);
+          const data = await response.json();
+            console.log(data, data.idToken);
+            localStorage.setItem("token", data.idToken);
             history.replace('/home')
             
         } else {
