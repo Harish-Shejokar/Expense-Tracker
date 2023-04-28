@@ -5,7 +5,7 @@ import Login from "./Components/Authentication/Login";
 import { Route,Switch } from "react-router-dom/cjs/react-router-dom.min";
 import Home from "./Pages/HomePage/Home";
 import UserDetails from "./Components/Authentication/UserDetails/UserDetails";
-import PasswordReset from "./Components/Authentication/passwordReset";
+import PasswordReset from "./Components/Authentication/PasswordReset";
 
 function App() {
   return (
