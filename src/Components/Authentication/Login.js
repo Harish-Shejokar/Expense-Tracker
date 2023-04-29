@@ -32,7 +32,7 @@ const Login = () => {
           localStorage.setItem("token", data.idToken);
           localStorage.setItem("email", enteredEmail);
          
-            history.replace('/home')
+          history.replace('/home');
             
         } else {
           console.log("signUp not OK");
@@ -48,7 +48,8 @@ const Login = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         console.log(email, password);
-        loginOnFireBase(email,password);
+      loginOnFireBase(email, password);
+      
       
   };
 

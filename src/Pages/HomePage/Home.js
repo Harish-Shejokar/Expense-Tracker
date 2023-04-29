@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ExpenseForm from "./Expense/ExpenseForm";
 
 const Home = () => {
   const verifyEmailOnFireBase = async () => {
@@ -33,17 +34,23 @@ const Home = () => {
   };
 
   return (
-    <div>
-      <Container fluid className="d-flex justify-content-between">
-        <h1>Welcome to Expense Tracker</h1>
-        <Button onClick={verifyEmailOnFireBase} variant="warning">
-          Verify Email Id
-        </Button>
-        <p>
-          Your Profile is Incomplete <Link to="/userdetails">Complete now</Link>
-        </p>
+    <>
+      <div>
+        <Container fluid className="d-flex justify-content-between">
+          <h1>Welcome to Expense Tracker</h1>
+          <Button onClick={verifyEmailOnFireBase} variant="warning">
+            Verify Email Id
+          </Button>
+          <p>
+            Your Profile is Incomplete{" "}
+            <Link to="/userdetails">Complete now</Link>
+          </p>
+        </Container>
+      </div>
+      <Container className="mt-5">
+        <ExpenseForm />
       </Container>
-    </div>
+    </>
   );
 };
 

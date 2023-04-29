@@ -1,6 +1,6 @@
 import React,{useRef} from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { useHistory } from "react-router-dom"
+import { useHistory,Link } from "react-router-dom"
 
 
 const PasswordReset = () => {
@@ -8,8 +8,10 @@ const PasswordReset = () => {
     const history = useHistory();
 
 
-    const resetPassHandler = async () => {
-        const enteredEmail = emailRef.current.value;
+  const resetPassHandler = async (e) => {
+    e.preventDefault();
+      const enteredEmail = emailRef.current.value;
+      console.log(enteredEmail);
       try {
          const response = await fetch(
            "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyBnUt6SmiCjCExXs2Pb4ir_uwH5us-ho2w",
@@ -57,7 +59,7 @@ const PasswordReset = () => {
                         </Form.Label>
                         <Form.Control
                           type="email"
-                        ref={emailRef}
+                          ref={emailRef}
                           placeholder="Enter email"
                           required
                         />
@@ -69,9 +71,14 @@ const PasswordReset = () => {
                           variant="primary"
                           type="submit"
                         >
-                          Submit
+                          Send Link
                         </Button>
                       </div>
+                      <Container className="d-flex justify-content-center mt-3">
+                        <Link to="/login" className="text-primary fw-bold">
+                          Login
+                        </Link>
+                      </Container>
                     </Form>
                   </div>
                 </div>
