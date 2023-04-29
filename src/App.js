@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Header from "./Components/Header/Header";
 import SignUp from "./Components/Authentication/SignUp";
 import Login from "./Components/Authentication/Login";
-import { Route,Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { Route,Switch,Redirect } from "react-router-dom/cjs/react-router-dom.min";
 import Home from "./Pages/HomePage/Home";
 import UserDetails from "./Components/Authentication/UserDetails/UserDetails";
 import PasswordReset from "./Components/Authentication/PasswordReset";
