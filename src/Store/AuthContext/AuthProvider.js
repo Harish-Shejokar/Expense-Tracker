@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 import CreateAuth from './Create-Auth'
 
 const AuthProvider = (props) => {
+  const checkEmailLocaly = localStorage.getItem("email")===null?false:true;
+  const [islogin, setIsLogin] = useState(checkEmailLocaly);
+  
+  const logInOutHandler = () => {
+    setIsLogin(true);
+  }
 
     const context = {
-        isLoggedIn: localStorage.getItem("email") === null ? false : true,
+      isLoggedIn: islogin,
+      logInOut: logInOutHandler,
+      
         
     };
 

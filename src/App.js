@@ -7,36 +7,26 @@ import Home from "./Pages/HomePage/Home";
 import UserDetails from "./Components/Authentication/UserDetails/UserDetails";
 import PasswordReset from "./Components/Authentication/PasswordReset";
 import CreateAuth from "./Store/AuthContext/Create-Auth";
+import PrivateRoute from "./Routes/PrivateRoute";
+import PublicRoute from "./Routes/PublicRoute";
+import './App.css';
 
 function App() {
   const AuthCtx = useContext(CreateAuth);
   console.log(AuthCtx.isLoggedIn);
 
   return (
-    <>
+    <div className="App">
       <Header />
       <Switch>
-        <Route path="/" exact>
-          <SignUp />
-        </Route>
-        <Route path="/login" exact>
-          <Login />
-        </Route>
-        {AuthCtx.isLoggedIn && (
-          <Route path="/home" exact>
-            <Home />
-          </Route>
-        )}
-        {AuthCtx.isLoggedIn && (
-          <Route path="/userdetails">
-            <UserDetails />
-          </Route>
-        )}
-        <Route path="/resetPassword">
-          <PasswordReset />
-        </Route>
+        <PrivateRoute path="/" Component={Home}/>
+        <PublicRoute path="/signup" Component={SignUp} />
+        <PublicRoute path="/login" Component={Login} />
+        <PublicRoute path="/resetPassword" Component={PasswordReset} />
+        <PrivateRoute path="/home" Component={Home} />
+        <PrivateRoute path="/userdetails" Component={UserDetails} />
       </Switch>
-    </>
+    </div>
   );
 }
 

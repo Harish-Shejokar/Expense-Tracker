@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ExpenseForm from "./Expense/ExpenseForm";
+import Background from "./Background";
 
 const Home = () => {
   const verifyEmailOnFireBase = async () => {
@@ -47,6 +48,7 @@ const Home = () => {
           </p>
         </Container>
       </div>
+      {/* <Background /> */}
       <Container className="mt-5">
         <ExpenseForm />
       </Container>

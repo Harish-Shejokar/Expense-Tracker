@@ -1,8 +1,10 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { Link,useHistory } from 'react-router-dom';
+import { Link,useHistory ,} from 'react-router-dom';
+import CreateAuth from "../../Store/AuthContext/Create-Auth";
 
 const Login = () => {
+  const AuthCtx = useContext(CreateAuth);
     const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -33,9 +35,10 @@ const Login = () => {
           localStorage.setItem("email", enteredEmail);
          
           history.replace('/home');
+          AuthCtx.logInOut();
             
         } else {
-          console.log("signUp not OK");
+          // console.log("login not OK");
           alert("Invalid Authentication");
         }
       } catch (err) {
@@ -48,7 +51,7 @@ const Login = () => {
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         console.log(email, password);
-      loginOnFireBase(email, password);
+        loginOnFireBase(email, password);
       
       
   };
@@ -103,12 +106,12 @@ const Login = () => {
                     </Form>
 
                     <Container className="mt-2 d-flex-center">
-                     <Link to="/resetPassword">reset Password</Link>
+                      <Link to="/resetPassword">reset Password</Link>
                     </Container>
                     <div className="mt-3">
                       <p className="mb-0  text-center">
                         Not Have an account?
-                        <Link to="/" className="text-primary fw-bold">
+                        <Link to="/signup" className="text-primary fw-bold">
                           SignUp
                         </Link>
                       </p>
