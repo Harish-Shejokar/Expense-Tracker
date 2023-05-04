@@ -1,59 +1,72 @@
 import React, { useContext, useRef } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
-import { Link,useHistory ,} from 'react-router-dom';
+import { Link, useHistory } from "react-router-dom";
 import CreateAuth from "../../Store/AuthContext/Create-Auth";
+import {} from "@reduxjs/toolkit";
+import { useSelector, useDispatch } from "react-redux";
+import { authAction } from "../../ReduxStore/Auth";
 
 const Login = () => {
   const AuthCtx = useContext(CreateAuth);
-    const history = useHistory();
+  const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
-  
- 
-    const loginOnFireBase = async (enteredEmail, enteredPassword) => {
-      try {
-        const response = await fetch(
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBnUt6SmiCjCExXs2Pb4ir_uwH5us-ho2w",
-          {
-            method: "POST",
-            body: JSON.stringify({
-              email: enteredEmail,
-              password: enteredPassword,
-              returnSecureToken: true,
-            }),
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          console.log("LogIn OK");
-          console.log(" User has successfully Logged In");
-          const data = await response.json();
-            console.log(data, data.idToken);
-          localStorage.setItem("token", data.idToken);
-          localStorage.setItem("email", enteredEmail);
-         
-          history.replace('/home');
-          AuthCtx.logInOut();
-            
-        } else {
-          // console.log("login not OK");
-          alert("Invalid Authentication");
+
+  //redux work
+  const dispatch = useDispatch();
+  const authFromRedux = useSelector(
+    (state) => state.authentication.isAuthenticated
+  );
+  const emailFromRedux = useSelector((state) => state.authentication.userEmail);
+  const tokenFromRedux = useSelector((state) => state.authentication.userToken);
+  console.log(authFromRedux, emailFromRedux,tokenFromRedux);
+
+  const loginOnFireBase = async (enteredEmail, enteredPassword) => {
+    try {
+      const response = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBnUt6SmiCjCExXs2Pb4ir_uwH5us-ho2w",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            email: enteredEmail,
+            password: enteredPassword,
+            returnSecureToken: true,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         }
-      } catch (err) {
-        console.log(err);
+      );
+      if (response.ok) {
+        console.log("LogIn OK");
+        // console.log(" User has successfully Logged In");
+        const data = await response.json();
+        // console.log(data, data.idToken);
+        dispatch(authAction.login());
+        dispatch(authAction.UserEmail(enteredEmail));
+        dispatch(authAction.Logintoken(data.idToken));
+        localStorage.setItem("token", data.idToken);
+        localStorage.setItem("email", enteredEmail);
+
+        history.replace("/home");
+        AuthCtx.logInOut();
+      } else {
+        // console.log("login not OK");
+        alert("Invalid Authentication");
       }
-    };
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const loginHandler = (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    // console.log(email, password);
+    loginOnFireBase(email, password);
     
-    const loginHandler = (e) => {
-        e.preventDefault();
-        const email = emailRef.current.value;
-        const password = passwordRef.current.value;
-        console.log(email, password);
-        loginOnFireBase(email, password);
-      
-      
+    // dispatch(authAction.Logintoken());
   };
 
   return (

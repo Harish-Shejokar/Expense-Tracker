@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CreateExpneseCtx from "./Create-ExpeseCtx";
+import { useDispatch } from "react-redux";
+import { expenseAction } from "../../ReduxStore/Expense";
 
 const ExpenseProvider = ({ children }) => {
+  const dispatch = useDispatch();
   const [expense, setExpense] = useState([]);
   const [editId, setEditId] = useState(null);
 
@@ -28,7 +31,7 @@ const ExpenseProvider = ({ children }) => {
   const getDataFromFireBase = async () => {
     let email = localStorage.getItem("email");
     email = email.replace(/[^a-zA-Z0-9]/g, "");
-    console.log(email);
+    // console.log(email);
     try {
       const result = await fetch(
         `https://expense-data-11e4b-default-rtdb.firebaseio.com/expense-${email}.json`
@@ -48,7 +51,9 @@ const ExpenseProvider = ({ children }) => {
           expenses.push(temp);
         });
 
-        console.log(expenses);
+        //  console.log(expenses);
+        dispatch(expenseAction.allExpense(expenses));
+        dispatch(expenseAction.totalExpenseAmount());
 
         setExpense(expenses);
       } else {

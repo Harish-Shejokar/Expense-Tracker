@@ -6,7 +6,9 @@ const AuthProvider = (props) => {
   const [islogin, setIsLogin] = useState(checkEmailLocaly);
   
   const logInOutHandler = () => {
-    setIsLogin(true);
+    setIsLogin(prev => {
+      return !prev;
+    });
   }
 
     const context = {

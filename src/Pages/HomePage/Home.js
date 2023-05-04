@@ -1,10 +1,34 @@
-import React from "react";
-import { Button, Container } from "react-bootstrap";
+import React,{useState,useEffect, useContext} from "react";
+import { Button, Container,Col,Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ExpenseForm from "./Expense/ExpenseForm";
-import Background from "./Background";
+// import Background from "./Background";
+import { useSelector, useDispatch } from "react-redux";
+import { authAction } from "../../ReduxStore/Auth";
+import { expenseAction } from "../../ReduxStore/Expense";
+import CreateExpenseCtx from "../../Store/ExpenseContext/Create-ExpeseCtx";
 
 const Home = () => {
+  const ExpCtx = useContext(CreateExpenseCtx);
+  const dispatch = useDispatch();
+  dispatch(authAction.Logintoken(localStorage.getItem("token")));
+  const tokenFromRedux = useSelector((state) => state.authentication.userToken);
+
+  useEffect(() => {
+    ExpCtx.getDataFromFireBase();
+    
+  },[])
+    
+  
+    
+
+   dispatch(expenseAction.totalExpenseAmount());
+   const totalExpenseFromRedux = useSelector((state) => state.totalExpense);
+   console.log(totalExpenseFromRedux);
+ 
+
+
+  // console.log(tokenFromRedux);
   const verifyEmailOnFireBase = async () => {
     try {
       const response = await fetch(
@@ -13,7 +37,7 @@ const Home = () => {
           method: "POST",
           body: JSON.stringify({
             requestType: "VERIFY_EMAIL",
-            idToken: localStorage.getItem("token"),
+            idToken: tokenFromRedux,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -23,11 +47,11 @@ const Home = () => {
 
       if (response.ok) {
         console.log("email verified Ok");
-        const data = await response.json()
+        const data = await response.json();
         console.log(data);
       } else {
         console.log("email verified not Ok");
-        console.log(response)
+        console.log(response);
       }
     } catch (err) {
       console.log(err);
@@ -35,24 +59,45 @@ const Home = () => {
   };
 
   return (
-    <>
-      <div>
-        <Container fluid className="d-flex justify-content-between">
-          <h1>Welcome to Expense Tracker</h1>
-          <Button onClick={verifyEmailOnFireBase} variant="warning">
-            Verify Email Id
-          </Button>
-          <p>
-            Your Profile is Incomplete{" "}
-            <Link to="/userdetails">Complete now</Link>
-          </p>
-        </Container>
-      </div>
-      {/* <Background /> */}
-      <Container className="mt-5">
-        <ExpenseForm />
+    <Container>
+      <Container fluid className=" d-flex justify-content-around mt-4">
+        <Row>
+          <Col md={4}>
+            <h1>Welcome to Expense Tracker</h1>
+          </Col>
+          <Col md={4}>
+            <Button
+              className="ms-5"
+              onClick={verifyEmailOnFireBase}
+              variant="warning"
+            >
+              Verify Email Id
+            </Button>
+          </Col>
+
+          <Col md={4}>
+            <h5 className="">
+              Your Profile is Incomplete
+              <Link to="/userdetails">Complete now</Link>
+            </h5>
+          </Col>
+        </Row>
       </Container>
-    </>
+      { (
+        <Row lg={6} className="d-flex justify-content-center">
+          <Button
+            variant="info"
+            style={{ color: "white", fontWeight: "bolder" }}
+          >
+            Activate Premium
+          </Button>
+        </Row>
+      )}
+      <Row className="mt-3">
+        <ExpenseForm />
+      </Row>
+      {/* <Background /> */}
+    </Container>
   );
 };
 
