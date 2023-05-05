@@ -21,6 +21,7 @@ const expenseSlice = createSlice({
       state.totalExpense = state.expenseData.reduce((prev, curr) => {
         return prev + Number(curr.expense);
       }, 0);
+      
     },
     deleteExpense(state, action) {
       const newList = state.expenseData.filter((item) => {

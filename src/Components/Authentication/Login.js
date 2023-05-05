@@ -66,7 +66,8 @@ const Login = () => {
     const password = passwordRef.current.value;
     // console.log(email, password);
     loginOnFireBase(email, password);
-    
+    //Theme setUp in localStorage
+    localStorage.setItem("theme", "ligthTheme");
     // dispatch(authAction.Logintoken());
   };
 

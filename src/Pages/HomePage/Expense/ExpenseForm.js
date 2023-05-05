@@ -8,7 +8,6 @@ import {
   Button,
   FloatingLabel,
 } from "react-bootstrap";
-import CreateExpenseCtx from "../../../Store/ExpenseContext/Create-ExpeseCtx";
 import ExpenseList from "./ExpenseList";
 import { useDispatch,useSelector } from "react-redux";
 import { expenseAction } from "../../../ReduxStore/Expense";
@@ -16,7 +15,6 @@ import { expenseAction } from "../../../ReduxStore/Expense";
 
 const ExpenseForm = () => {
   const dispatch = useDispatch();
-  const ExpeseCtx = useContext(CreateExpenseCtx);
   const expenseRef = useRef();
   const desRef = useRef();
   const categoryRef = useRef();
@@ -105,6 +103,7 @@ const ExpenseForm = () => {
     };
     // ExpeseCtx.addExpense(obj);
     dispatch(expenseAction.addExpense(obj));
+    dispatch(expenseAction.totalExpenseAmount());
 
     console.log(editId);
     if (editId) {
@@ -120,6 +119,10 @@ const ExpenseForm = () => {
       desRef.current.value,
       categoryRef.current.value
     );
+     document.querySelector(".expense").value = 'Expense';
+     document.querySelector(".description").value = '';
+     document.querySelector(".category").value = 'Category';
+   
   };
 
   return (

@@ -38,6 +38,7 @@ const ExpenseItem = (props) => {
   const deleteHandler = () => {
     // ExpCtx.deleteExpense(props.expense, props.description, props.category);
     dispatch(expenseAction.deleteExpense(props.expense))
+    dispatch(expenseAction.totalExpenseAmount());
     deleteFromFireBase();
   };
   

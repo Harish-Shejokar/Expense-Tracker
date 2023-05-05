@@ -17,10 +17,10 @@ const Home = () => {
 
   
 
-  // const totalExpenseFromRedux = useSelector(
-  //   (state) => state.expense.totalExpense
-  // );
-  // console.log(totalExpenseFromRedux);
+  const totalExpenseFromRedux = useSelector(
+    (state) => state.expense.totalExpense
+  );
+  console.log(totalExpenseFromRedux);
 
   useEffect(() => {
     dispatch(fetchExpenses());
@@ -87,14 +87,14 @@ const Home = () => {
       </Container>
 
        
-        <Row lg={6} className=" mt-3 d-flex justify-content-center">
-          <Button
-            variant="info"
-            style={{ color: "white", fontWeight: "bolder" }}
-          >
-            Activate Premium
-          </Button>
-        </Row>
+      {totalExpenseFromRedux >= 10000 && <Row lg={6} className=" mt-3 d-flex justify-content-center">
+        <Button
+          variant="info"
+          style={{ color: "white", fontWeight: "bolder" }}
+        >
+          Activate Premium
+        </Button>
+      </Row>}
       
 
       <Row className="mt-3">

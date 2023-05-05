@@ -3,21 +3,29 @@ import { Navbar, Nav, Container,Button,Form} from "react-bootstrap";
 import { useHistory,Link } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { authAction } from '../../ReduxStore/Auth';
+import { themeAction } from '../../ReduxStore/Theme';
   
 const Header = () => {
   const dispatch = useDispatch();
   const loginStatus = useSelector(state => state.authentication.isAuthenticated);
   const history = useHistory();
+  const theme = useSelector((state) => state.theme.currTheme);
   const logOutHandler = () => {
     dispatch(authAction.isLogin());
     history.replace('/login')
-    localStorage.removeItem('token');
-    localStorage.removeItem('email');
-    
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('email');
+    localStorage.clear();
   }
 
   const switchToDarkTheme = () => { 
-    console.log("dark theme")
+    // console.log("dark theme")
+    dispatch(themeAction.switchTheme());
+    if (localStorage.getItem("theme") === "darkTheme")
+      localStorage.setItem("theme", "ligthTheme");
+     else
+      localStorage.setItem("theme", "darkTheme");
+      
   }
 
 
@@ -52,7 +60,7 @@ const Header = () => {
         id="custom-switch"
         label="Theme"
         onClick={switchToDarkTheme}
-
+        defaultChecked={theme === "darkTheme"}
       />
     </Navbar>
   );
