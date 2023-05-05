@@ -23,9 +23,9 @@ function App() {
       <Switch>
         <PrivateRoute path="/" Component={Home} exact />
         <PrivateRoute path="/home" Component={Home} exact />
-        <PublicRoute path="/resetPassword" Component={PasswordReset} exact />
         <PrivateRoute path="/userdetails" Component={UserDetails} exact />
         <PublicRoute path="/signup" Component={SignUp} exact />
+        <PublicRoute path="/resetPassword" Component={PasswordReset} exact />
         <PublicRoute path="/login" Component={Login} exact />
         <Route path="*">
           <Error />

@@ -28,8 +28,11 @@ const PasswordReset = () => {
           );
           
           if (response.ok) {
-              console.log('reset Ok')
-              history.replace('/login')
+            console.log('reset Ok')
+            setTimeout(() => {
+               history.replace("/login");
+            }, 3000)
+             
             } else {
               console.log('reset not Ok')
           }

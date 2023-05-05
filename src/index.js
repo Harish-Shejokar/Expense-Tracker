@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import { BrowserRouter } from "react-router-dom";
 import AuthProvider from "./Store/AuthContext/AuthProvider";
-import ExpenseProvider from "./Store/ExpenseContext/ExpenseProvider";
 import Store from "./ReduxStore/index";
 import { Provider } from "react-redux";
 
@@ -17,9 +16,7 @@ root.render(
     <Provider store={Store}>
       <BrowserRouter>
         <AuthProvider>
-          <ExpenseProvider>
-            <App />
-          </ExpenseProvider>
+          <App />
         </AuthProvider>
       </BrowserRouter>
     </Provider>

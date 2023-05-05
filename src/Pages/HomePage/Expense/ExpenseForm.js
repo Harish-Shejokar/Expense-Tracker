@@ -10,8 +10,12 @@ import {
 } from "react-bootstrap";
 import CreateExpenseCtx from "../../../Store/ExpenseContext/Create-ExpeseCtx";
 import ExpenseList from "./ExpenseList";
+import { useDispatch,useSelector } from "react-redux";
+import { expenseAction } from "../../../ReduxStore/Expense";
+
 
 const ExpenseForm = () => {
+  const dispatch = useDispatch();
   const ExpeseCtx = useContext(CreateExpenseCtx);
   const expenseRef = useRef();
   const desRef = useRef();
@@ -38,7 +42,8 @@ const ExpenseForm = () => {
       );
       if (response.ok) {
         console.log("put request OK");
-        ExpeseCtx.editExpense(null);
+        // ExpeseCtx.editExpense(null);
+        dispatch(expenseAction.updateEditID(null));
       } else {
         console.log("put request not OK");
       }
@@ -53,7 +58,9 @@ const ExpenseForm = () => {
     document.querySelector(".expense").value = expense;
     document.querySelector(".description").value = description;
     document.querySelector(".category").value = category;
-    ExpeseCtx.editExpense(editId);
+    // ExpeseCtx.editExpense(editId);
+   
+    dispatch(expenseAction.updateEditID(editId));
   };
 
   const storeDataOnDataBase = async (expense, description, category) => {
@@ -78,6 +85,8 @@ const ExpenseForm = () => {
 
       if (result.ok) {
         console.log("data stored on database  OK");
+        
+      
       } else {
         console.log("data stored not  OK");
       }
@@ -85,7 +94,8 @@ const ExpenseForm = () => {
       console.log(err);
     }
   };
-
+  const editId = useSelector(state => state.expense.editID);
+  
   const addExpenseHandler = (e) => {
     e.preventDefault();
     const obj = {
@@ -93,15 +103,16 @@ const ExpenseForm = () => {
       description: desRef.current.value,
       category: categoryRef.current.value,
     };
-    ExpeseCtx.addExpense(obj);
+    // ExpeseCtx.addExpense(obj);
+    dispatch(expenseAction.addExpense(obj));
 
-    console.log(ExpeseCtx.editKey);
-    if (ExpeseCtx.editKey) {
+    console.log(editId);
+    if (editId) {
       putRequestOnFireBase(
         expenseRef.current.value,
         desRef.current.value,
         categoryRef.current.value,
-        ExpeseCtx.editKey
+        editId,
       );
     }
     else storeDataOnDataBase(
@@ -114,7 +125,7 @@ const ExpenseForm = () => {
   return (
     <>
       <div>
-        <Container>
+        <Container className="Expense-Form">
           <Row className="vh-100 d-flex justify-content-center mt-5">
             <Col md={8} lg={6} xs={12}>
               <div className="border border-2 border-primary"></div>

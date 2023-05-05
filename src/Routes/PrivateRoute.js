@@ -2,14 +2,15 @@ import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import CreateAuth from '../Store/AuthContext/Create-Auth';
 import Login from "../Components/Authentication/Login";
-
+import { useSelector } from 'react-redux';
 const PrivateRoute = ({Component,...rest}) => {
-    const AuthCtx = useContext(CreateAuth);
-    // console.log(Component,rest,"skdjf")
-    // console.log(AuthCtx.isLoggedIn)
+   const loginStatus = useSelector(
+  (state) => state.authentication.isAuthenticated
+);
+
     return (
         <Route >
-            {AuthCtx.isLoggedIn ? <Component /> : <Login />}
+            {loginStatus ? <Component /> : <Login />}
         </Route>
       
   )

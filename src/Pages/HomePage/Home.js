@@ -1,32 +1,34 @@
-import React,{useState,useEffect, useContext} from "react";
-import { Button, Container,Col,Row } from "react-bootstrap";
+import React, { useState, useEffect, useContext } from "react";
+import { Button, Container, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import ExpenseForm from "./Expense/ExpenseForm";
 // import Background from "./Background";
 import { useSelector, useDispatch } from "react-redux";
 import { authAction } from "../../ReduxStore/Auth";
 import { expenseAction } from "../../ReduxStore/Expense";
+import { fetchExpenses } from "../../ReduxStore/Expense";
 import CreateExpenseCtx from "../../Store/ExpenseContext/Create-ExpeseCtx";
 
 const Home = () => {
-  const ExpCtx = useContext(CreateExpenseCtx);
   const dispatch = useDispatch();
   dispatch(authAction.Logintoken(localStorage.getItem("token")));
+  dispatch(expenseAction.totalExpenseAmount());
   const tokenFromRedux = useSelector((state) => state.authentication.userToken);
 
-  useEffect(() => {
-    ExpCtx.getDataFromFireBase();
-    
-  },[])
-    
   
-    
 
-   dispatch(expenseAction.totalExpenseAmount());
-   const totalExpenseFromRedux = useSelector((state) => state.totalExpense);
-   console.log(totalExpenseFromRedux);
- 
+  // const totalExpenseFromRedux = useSelector(
+  //   (state) => state.expense.totalExpense
+  // );
+  // console.log(totalExpenseFromRedux);
 
+  useEffect(() => {
+    dispatch(fetchExpenses());
+    // dispatch(expenseAction.totalExpenseAmount());
+
+  }, []);
+
+  //  console.log(totalExpenseFromRedux);
 
   // console.log(tokenFromRedux);
   const verifyEmailOnFireBase = async () => {
@@ -83,8 +85,9 @@ const Home = () => {
           </Col>
         </Row>
       </Container>
-      { (
-        <Row lg={6} className="d-flex justify-content-center">
+
+       
+        <Row lg={6} className=" mt-3 d-flex justify-content-center">
           <Button
             variant="info"
             style={{ color: "white", fontWeight: "bolder" }}
@@ -92,7 +95,8 @@ const Home = () => {
             Activate Premium
           </Button>
         </Row>
-      )}
+      
+
       <Row className="mt-3">
         <ExpenseForm />
       </Row>

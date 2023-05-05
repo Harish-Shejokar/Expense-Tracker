@@ -1,7 +1,15 @@
 .App {
   /* text-align: center; */
   /* background-color: #282c34;
-  height:  122vh; */
+  */
+  background-color: #282c34;
+  color : cyan;
+  height:  100%; 
+}
+
+.Expense-Form{
+  /* background-color: #282c34; */
+  /* color: white; */
 }
 
 .App-logo {

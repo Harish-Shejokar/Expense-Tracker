@@ -19,7 +19,8 @@ const Login = () => {
   );
   const emailFromRedux = useSelector((state) => state.authentication.userEmail);
   const tokenFromRedux = useSelector((state) => state.authentication.userToken);
-  console.log(authFromRedux, emailFromRedux,tokenFromRedux);
+  console.log(authFromRedux);
+
 
   const loginOnFireBase = async (enteredEmail, enteredPassword) => {
     try {
@@ -42,14 +43,14 @@ const Login = () => {
         // console.log(" User has successfully Logged In");
         const data = await response.json();
         // console.log(data, data.idToken);
-        dispatch(authAction.login());
+        dispatch(authAction.isLogin());
         dispatch(authAction.UserEmail(enteredEmail));
         dispatch(authAction.Logintoken(data.idToken));
         localStorage.setItem("token", data.idToken);
         localStorage.setItem("email", enteredEmail);
-
         history.replace("/home");
-        AuthCtx.logInOut();
+
+        // AuthCtx.logInOut();
       } else {
         // console.log("login not OK");
         alert("Invalid Authentication");

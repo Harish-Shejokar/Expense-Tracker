@@ -1,8 +1,11 @@
 import React, { useContext } from "react";
 import { Container, Row, Button } from "react-bootstrap";
 import CreateExpenseCtx from "../../../Store/ExpenseContext/Create-ExpeseCtx";
+import { useDispatch } from "react-redux";
+import { expenseAction } from "../../../ReduxStore/Expense";
 
 const ExpenseItem = (props) => {
+  const dispatch = useDispatch();
   const ExpCtx = useContext(CreateExpenseCtx);
   let email = localStorage.getItem("email");
   email = email.replace(/[^a-zA-Z0-9]/g, "");
@@ -23,7 +26,7 @@ const ExpenseItem = (props) => {
       if (response.ok) {
         console.log("delete OK");
         console.log("Expense successfuly deleted");
-        
+        dispatch(expenseAction.totalExpenseAmount())
       } else {
         console.log("delete not OK");
       }
@@ -33,15 +36,16 @@ const ExpenseItem = (props) => {
   };
 
   const deleteHandler = () => {
-    ExpCtx.deleteExpense(props.expense, props.description, props.category);
+    // ExpCtx.deleteExpense(props.expense, props.description, props.category);
+    dispatch(expenseAction.deleteExpense(props.expense))
     deleteFromFireBase();
   };
-
-
   
-
+  
+  
+  
   const editHandler = () => {
-    ExpCtx.deleteExpense(props.expense, props.description, props.category);
+    dispatch(expenseAction.deleteExpense(props.expense))
     props.editExpense(
       props.expense,
       props.description,

@@ -1,9 +1,11 @@
 import React,{useRef} from "react";
 import { Container, Row, Col, Card, Form, Button, } from "react-bootstrap";
 import {Link} from 'react-router-dom'
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 const SignUp = () => {
+  const history = useHistory();
     const emailRef = useRef()
     const passwordRef = useRef()
     const confirmPassRef = useRef();
@@ -27,7 +29,8 @@ const SignUp = () => {
             if (response.ok) {
                 console.log('signUp OK')
                 console.log(' User has successfully signed up')
-                const data = await response;
+              const data = await response;
+              history.replace("/login");
                 // console.log(data);
             } else {
                 console.log('signUp not OK')

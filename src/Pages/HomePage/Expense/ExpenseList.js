@@ -4,22 +4,20 @@ import CreateExpenseCtx from "../../../Store/ExpenseContext/Create-ExpeseCtx";
 import { useEffect } from "react";
 // import CreateAuth from "../../../Store/AuthContext/Create-Auth";
 import ExpenseItem from "./ExpenseItem";
-import { useDispatch } from "react-redux";
-import { expenseAction } from "../../../ReduxStore/Expense";
+import { useSelector } from "react-redux";
 
 const ExpenseList = (props) => {
   const ExpCtx = useContext(CreateExpenseCtx);
-  // const AuthCtx = useContext(CreateAuth);
-  const dispatch = useDispatch();
+  
+  const dataFromRedux = useSelector((state) => state.expense.expenseData);
 
-  // useEffect(() => {
-  //   ExpCtx.getDataFromFireBase();
-  // }, []);
+  // console.log(dataFromRedux);
+ 
 
   return (
     <Card className="mb-3">
       <Card.Body>
-        {ExpCtx.expenseItem.map((item) => {
+        {dataFromRedux.map((item) => {
           // console.log(item);
           return (
             <ExpenseItem
