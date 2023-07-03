@@ -1,4 +1,5 @@
-import React, { useContext, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import Emoji from "../../../Components/Emoji";
 import {
   Card,
   Container,
@@ -9,23 +10,30 @@ import {
   FloatingLabel,
 } from "react-bootstrap";
 import ExpenseList from "./ExpenseList";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { expenseAction } from "../../../ReduxStore/Expense";
-
+import "../../../App.css";
 
 const ExpenseForm = () => {
   const dispatch = useDispatch();
   const expenseRef = useRef();
   const desRef = useRef();
   const categoryRef = useRef();
+  const theme = useSelector((state) => state.theme.currTheme);
+  const subscription = useSelector(state => state.expense.subscription);
+  const bg = theme === "darkTheme" ? "dark" : "light";
+  const totalExpenseFromRedux = useSelector(
+    (state) => state.expense.totalExpense
+  );
 
-  const putRequestOnFireBase = async (expense, description, category,Id) => {
+
+  const putRequestOnFireBase = async (expense, description, category, Id) => {
     let email = localStorage.getItem("email");
     email = email.replace(/[^a-zA-Z0-9]/g, "");
 
     try {
       const response = await fetch(
-        `https://expense-data-11e4b-default-rtdb.firebaseio.com/expense-${email}/${Id}.json`,
+        `https://expense-data-11e4b-default-rtdb.firebaseio.com/${email}/${Id}.json`,
         {
           method: "PUT",
           body: JSON.stringify({
@@ -50,14 +58,12 @@ const ExpenseForm = () => {
     }
   };
 
-  
-
   const editExpense = (expense, description, category, editId) => {
     document.querySelector(".expense").value = expense;
     document.querySelector(".description").value = description;
     document.querySelector(".category").value = category;
     // ExpeseCtx.editExpense(editId);
-   
+    console.log(editId);
     dispatch(expenseAction.updateEditID(editId));
   };
 
@@ -67,7 +73,7 @@ const ExpenseForm = () => {
 
     try {
       const result = await fetch(
-        `https://expense-data-11e4b-default-rtdb.firebaseio.com/expense-${email}.json`,
+        `https://expense-data-11e4b-default-rtdb.firebaseio.com/${email}.json`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -83,8 +89,6 @@ const ExpenseForm = () => {
 
       if (result.ok) {
         console.log("data stored on database  OK");
-        
-      
       } else {
         console.log("data stored not  OK");
       }
@@ -92,10 +96,15 @@ const ExpenseForm = () => {
       console.log(err);
     }
   };
-  const editId = useSelector(state => state.expense.editID);
-  
+  const editId = useSelector((state) => state.expense.editID);
+
   const addExpenseHandler = (e) => {
     e.preventDefault();
+    if (expenseRef.current.value === "" || desRef.current.value === "") {
+      alert("Enter valid Data");
+      return;
+    }
+    
     const obj = {
       expense: expenseRef.current.value,
       description: desRef.current.value,
@@ -107,68 +116,57 @@ const ExpenseForm = () => {
 
     console.log(editId);
     if (editId) {
+      console.log("edit88888888");
       putRequestOnFireBase(
         expenseRef.current.value,
         desRef.current.value,
         categoryRef.current.value,
-        editId,
+        editId
       );
-    }
-    else storeDataOnDataBase(
-      expenseRef.current.value,
-      desRef.current.value,
-      categoryRef.current.value
-    );
-     document.querySelector(".expense").value = 'Expense';
-     document.querySelector(".description").value = '';
-     document.querySelector(".category").value = 'Category';
-   
+    } else
+      storeDataOnDataBase(
+        expenseRef.current.value,
+        desRef.current.value,
+        categoryRef.current.value
+      );
+    document.querySelector(".expense").value = "Expense";
+    document.querySelector(".description").value = "";
+    document.querySelector(".category").value = "Category";
   };
 
+  const activatePremium = () => {
+    dispatch(expenseAction.activatePremium());
+  }
+ 
+ 
   return (
     <>
       <div>
-        <Container className="Expense-Form">
-          <Row className="vh-100 d-flex justify-content-center mt-5">
+        <Container>
+          <Row className="vh-90 d-flex justify-content-center mt-5 mb-5">
             <Col md={8} lg={6} xs={12}>
-              <div className="border border-2 border-primary"></div>
-              <Card className="shadow px-4">
+              <div className="border border-3 border-primary"></div>
+
+              <Card bg={bg} className="shadow px-4">
                 <Card.Body>
                   <div className="mb-3 mt-md-4">
-                    <h2 className="fw-bold mb-2 text-center text-uppercase ">
-                      Expense-Tracker
+                    <h2 className="fw-bold mb-2 text-center ">
+                      Fill Expense Details <Emoji symbol="👇" />
                     </h2>
                     <div className="mb-3">
                       <Form>
                         <Form.Group className="mb-3" controlId="Name">
                           <Form.Label className="text-center">
-                            Expense
+                            Amount
                           </Form.Label>
                           <Form.Control
                             className="expense"
                             ref={expenseRef}
                             type="number"
-                            placeholder=" Expense"
+                            placeholder="Expense"
                           />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                          <Form.Label className="text-center">
-                            Description
-                          </Form.Label>
-                          <FloatingLabel
-                            controlId="floatingTextarea2"
-                            //   label="Description"
-                          >
-                            <Form.Control
-                              className="description"
-                              ref={desRef}
-                              as="textarea"
-                              placeholder="Leave a comment here"
-                              style={{ height: "100px" }}
-                            />
-                          </FloatingLabel>
-                        </Form.Group>
                         <Form.Group className="mb-3" controlId="Name">
                           <Form.Label className="text-center">
                             Category
@@ -193,22 +191,52 @@ const ExpenseForm = () => {
                           </div>
                         </Form.Group>
 
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                          <Form.Label className="text-center">
+                            Description
+                          </Form.Label>
+                          <FloatingLabel
+                            controlId="floatingTextarea2"
+                            //   label="Description"
+                          >
+                            <Form.Control
+                              className="description"
+                              ref={desRef}
+                              as="textarea"
+                              placeholder="Leave a comment here"
+                              style={{ height: "100px" }}
+                            />
+                          </FloatingLabel>
+                        </Form.Group>
+
                         <div className="d-grid">
                           <Button
                             onClick={addExpenseHandler}
                             variant="outline-success"
                             type="submit"
+                            className="fw-bolder"
                           >
                             Add Expense
                           </Button>
                         </div>
+                        {!subscription && (
+                          <div className="d-grid mt-2">
+                            <Button
+                              onClick={activatePremium}
+                              variant="outline-info"
+                              className="fw-bolder"
+                            >
+                              Activate Premium
+                            </Button>
+                          </div>
+                        )}
                       </Form>
                     </div>
                   </div>
                 </Card.Body>
               </Card>
-              <ExpenseList editExpense={editExpense} />
             </Col>
+            <ExpenseList className editExpense={editExpense} />
           </Row>
         </Container>
       </div>

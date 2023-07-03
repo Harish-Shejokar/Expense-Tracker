@@ -1,36 +1,29 @@
-
-*{
+* {
   transition: all 0.1s ease-in-out;
 }
 
-.App {
-  /* text-align: center; */
-  /* background-color: #282c34;
-  */
-  /* background-color: #282c34;
-  color : cyan;
-  height:  100%;  */
-}
+/* .App {
+ 
+} */
 
-
-.darkTheme{
+.darkTheme {
   background-color: #282c34;
   color: cyan;
-}
-
-.ligthTheme{
-  background-color: white;
-  color: black;
+  min-height: 100vh;
   font-weight: bold;
 }
 
+.ligthTheme {
+  background-color: white;
+  color: black;
+  font-weight: bold;
 
-
-
-.Expense-Form{
-  /* background-color: #282c34; */
-  /* color: white; */
+  /* min-height: 100vh; */
 }
+
+/* .Expense-Form{
+ 
+} */
 
 .App-logo {
   height: 40vmin;

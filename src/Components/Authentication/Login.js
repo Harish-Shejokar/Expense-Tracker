@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { authAction } from "../../ReduxStore/Auth";
 
 const Login = () => {
-  const AuthCtx = useContext(CreateAuth);
+ 
   const history = useHistory();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -17,8 +17,7 @@ const Login = () => {
   const authFromRedux = useSelector(
     (state) => state.authentication.isAuthenticated
   );
-  const emailFromRedux = useSelector((state) => state.authentication.userEmail);
-  const tokenFromRedux = useSelector((state) => state.authentication.userToken);
+  
   console.log(authFromRedux);
 
 

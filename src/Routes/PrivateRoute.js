@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
-import CreateAuth from '../Store/AuthContext/Create-Auth';
 import Login from "../Components/Authentication/Login";
 import { useSelector } from 'react-redux';
 const PrivateRoute = ({Component,...rest}) => {

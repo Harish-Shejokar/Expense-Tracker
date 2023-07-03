@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const defaultTheme = localStorage.getItem("theme");
+let defaultTheme = localStorage.getItem("theme");
+
+if (defaultTheme === null) defaultTheme = "ligthTheme";
 
 const intialThemeState = { currTheme: defaultTheme };
 
@@ -12,6 +14,9 @@ const themeSlice = createSlice({
             if (state.currTheme === "darkTheme") state.currTheme = "ligthTheme";
             else state.currTheme = "darkTheme";
             // console.log(state.currTheme);
+        },
+        logoutTheme(state) {
+            state.currTheme = "ligthTheme";
         }
         
     }
