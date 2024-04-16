@@ -58,21 +58,21 @@ const ExpenseItem = (props) => {
         <Col className="text-center m-1">
           <Button
             className="mx-3"
-            onClick={deleteHandler}
-            variant="outline-danger"
-            size="sm"
-          >
-            Delete
-          </Button>
-        </Col>
-        <Col className="text-center m-1">
-          <Button
-            className="mx-3"
             onClick={editHandler}
             variant="outline-warning"
             size="sm"
           >
             Edit
+          </Button>
+        </Col>
+        <Col className="text-center m-1">
+          <Button
+            className="mx-3"
+            onClick={deleteHandler}
+            variant="outline-danger"
+            size="sm"
+          >
+            Delete
           </Button>
         </Col>
       </Container>
