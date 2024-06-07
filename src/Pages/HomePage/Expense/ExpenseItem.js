@@ -40,7 +40,10 @@ const ExpenseItem = (props) => {
   };
 
   const editHandler = () => {
+    console.log(props)
+    
     dispatch(expenseAction.deleteExpense(props.expense));
+    deleteFromFireBase();
     props.editExpense(
       props.expense,
       props.description,
